@@ -1,0 +1,3 @@
+Faith:faith
+Repentance:repentance,repent,forsake
+Prayer:pray,prayer,call upon,supplication

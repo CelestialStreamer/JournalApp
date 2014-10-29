@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<VBox alignment="CENTER" prefHeight="125.0" prefWidth="200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.LoadingScreenController">
+   <children>
+      <Label text="While loading your file, I found:" VBox.vgrow="NEVER" />
+      <Region prefHeight="25.0" VBox.vgrow="NEVER" />
+      <HBox alignment="CENTER" VBox.vgrow="NEVER">
+         <children>
+            <Label text="Entries" />
+            <Region prefWidth="15.0" />
+            <Label fx:id="entries" text="0" />
+         </children>
+      </HBox>
+      <HBox alignment="CENTER">
+         <children>
+            <Label text="Scriptures" />
+            <Region prefWidth="15.0" />
+            <Label fx:id="scriptures" text="0" />
+         </children>
+      </HBox>
+      <HBox alignment="CENTER">
+         <children>
+            <Label text="Topics" />
+            <Region prefWidth="15.0" />
+            <Label fx:id="topics" text="0" />
+         </children>
+      </HBox>
+      <Region prefHeight="25.0" />
+      <ProgressBar fx:id="progressbar" prefWidth="200.0" />
+   </children>
+</VBox>
