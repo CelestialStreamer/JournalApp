@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+
+<AnchorPane prefHeight="200.0" prefWidth="200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label layoutX="27.0" layoutY="79.0" text="Start" />
+      <Hyperlink layoutX="27.0" layoutY="109.0" onAction="#MenuNew" text="New Journal..." />
+      <Hyperlink layoutX="27.0" layoutY="132.0" onAction="#MenuOpenFile" text="Open Journal..." />
+      <Label layoutX="27.0" layoutY="32.0" text="Journal Editor">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <ListView layoutX="27.0" layoutY="214.0" opacity="0.27" prefHeight="200.0" prefWidth="200.0" />
+      <Label layoutX="27.0" layoutY="174.0" text="Recent" />
+   </children>
+</AnchorPane>

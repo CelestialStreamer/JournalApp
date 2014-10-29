@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.input.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="564.0" prefWidth="577.0"
+	xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="controller.MainController">
+	<children>
+		<VBox prefHeight="326.0" prefWidth="328.0" scaleShape="false"
+			AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+			AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+			<children>
+				<MenuBar VBox.vgrow="NEVER">
+					<menus>
+						<Menu mnemonicParsing="false" text="File">
+							<items>
+								<MenuItem mnemonicParsing="false" onAction="#MenuNew"
+									text="New">
+									<accelerator>
+										<KeyCodeCombination alt="UP" code="N"
+											control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+									</accelerator>
+								</MenuItem>
+								<SeparatorMenuItem mnemonicParsing="false" />
+								<MenuItem mnemonicParsing="false" onAction="#MenuOpenFile"
+									text="Open File">
+									<accelerator>
+										<KeyCodeCombination alt="UP" code="O"
+											control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+									</accelerator>
+								</MenuItem>
+								<MenuItem mnemonicParsing="false" onAction="#MenuClose"
+									text="Close" />
+								<SeparatorMenuItem mnemonicParsing="false" />
+								<MenuItem disable="true" mnemonicParsing="false"
+									onAction="#MenuSave" text="Save">
+									<accelerator>
+										<KeyCodeCombination alt="UP" code="S"
+											control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+									</accelerator>
+								</MenuItem>
+								<MenuItem mnemonicParsing="false" onAction="#MenuSaveAs"
+									text="Save As..." />
+								<SeparatorMenuItem mnemonicParsing="false" />
+								<MenuItem mnemonicParsing="false" onAction="#MenuImport"
+									text="Import" />
+								<MenuItem mnemonicParsing="false" onAction="#MenuExport"
+									text="Export" />
+								<SeparatorMenuItem mnemonicParsing="false" />
+								<MenuItem mnemonicParsing="false" onAction="#MenuExit"
+									text="Exit" />
+							</items>
+						</Menu>
+						<Menu mnemonicParsing="false" text="Edit">
+							<items>
+								<MenuItem mnemonicParsing="false" onAction="#MenuCut"
+									text="Cut" />
+								<MenuItem mnemonicParsing="false" onAction="#MenuCopy"
+									text="Copy" />
+								<MenuItem mnemonicParsing="false" onAction="#MenuPaste"
+									text="Paste" />
+								<SeparatorMenuItem mnemonicParsing="false" />
+								<MenuItem mnemonicParsing="false" onAction="#MenuDelete"
+									text="Delete" />
+								<MenuItem mnemonicParsing="false" onAction="#MenuSelectAll"
+									text="Select All" />
+							</items>
+						</Menu>
+						<Menu mnemonicParsing="false" text="Help">
+							<items>
+								<MenuItem mnemonicParsing="false" onAction="#MenuAbout"
+									text="About" />
+							</items>
+						</Menu>
+					</menus>
+				</MenuBar>
+				<SplitPane dividerPositions="0.5" prefWidth="577.0"
+					VBox.vgrow="ALWAYS">
+					<items>
+						<VBox maxWidth="200.0" prefHeight="539.0" prefWidth="150.0">
+							<children>
+								<HBox alignment="CENTER" VBox.vgrow="NEVER">
+									<children>
+										<Label contentDisplay="CENTER" maxHeight="-Infinity"
+											maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+											prefHeight="30.0" prefWidth="53.0" text="Journal" HBox.hgrow="NEVER">
+											<padding>
+												<Insets left="5.0" />
+											</padding>
+										</Label>
+										<TextField fx:id="searchField" alignment="CENTER_LEFT"
+											opacity="0.32" prefHeight="25.0" HBox.hgrow="ALWAYS">
+											<opaqueInsets>
+												<Insets top="1.0" />
+											</opaqueInsets>
+											<HBox.margin>
+												<Insets right="5.0" />
+											</HBox.margin>
+										</TextField>
+									</children>
+								</HBox>
+								<fx:include fx:id="tree" source="../../bin/view/TreeView.fxml" />
+							</children>
+						</VBox>
+						<fx:include fx:id="tabPane" source="../../bin/view/TabPaneView.fxml" />
+					</items>
+				</SplitPane>
+			</children>
+		</VBox>
+	</children>
+</AnchorPane>
