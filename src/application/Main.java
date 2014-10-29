@@ -13,7 +13,9 @@ import javafx.scene.Scene;
  */
 public class Main extends Application {
     /**
+     * This is where the application starts.
      * 
+     * @param primaryStage
      */
     @Override
     public void start(Stage primaryStage) {
