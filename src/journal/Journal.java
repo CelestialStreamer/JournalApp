@@ -498,7 +498,7 @@ public class Journal {
 	SchemaFactory schemaFactory = SchemaFactory
 		.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
 	Schema schema = schemaFactory.newSchema(new File(System
-		.getProperty("user.dir") + "/resources/schema.xsd"));
+		.getProperty("user.dir") + "/src/resources/schema.xsd"));
 	Validator validator = schema.newValidator();
 	validator.validate(file);
     }
