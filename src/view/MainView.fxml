@@ -86,7 +86,7 @@
 								<TreeView fx:id="tree" VBox.vgrow="ALWAYS" />
 							</children>
 						</VBox>
-						<TabPane fx:id="tabPane" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" />
+						<TabPane fx:id="tabPane" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="ALL_TABS" />
 					</items>
 				</SplitPane>
 			</children>
