@@ -7,8 +7,6 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.EventListener;
-import java.util.EventObject;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -44,8 +42,8 @@ import org.xml.sax.SAXException;
  */
 public class Journal {
     private List<Entry> entries = new ArrayList<Entry>();
-    private ArrayList<JournalEventListener> journalEvenListener = new ArrayList<JournalEventListener>();
     String fileName = "";
+    private ArrayList<JournalEventListener> journalEvenListener = new ArrayList<JournalEventListener>();
 
     /**
      * Sets up valid scripture and topic list.
@@ -56,28 +54,6 @@ public class Journal {
 	setupFiles();
     }
     
-    public synchronized void addJournalListener(JournalEventListener listener) {
-	if (!journalEvenListener.contains(listener)) {
-	    journalEvenListener.add(listener);
-	}
-    }
-    
-    @SuppressWarnings("unchecked")
-    private void proccessJournalEvent(JournalEvent journalEvent) {
-	ArrayList<JournalEventListener> tempJournalListenerList;
-	
-	synchronized (this) {
-	    if (journalEvenListener.size() == 0) {
-		return;
-	    }
-	    tempJournalListenerList = (ArrayList<JournalEventListener>) journalEvenListener.clone();
-	}
-	
-	for (JournalEventListener listener : tempJournalListenerList) {
-	    listener.updateLoadStatus(journalEvent);
-	}
-    }
-
     /**
      * Add an entry to the journal.
      * 
@@ -86,7 +62,18 @@ public class Journal {
     public void addEntry(Entry newEntry) {
 	entries.add(newEntry);
     }
-
+    
+    /**
+     * Add an event listener
+     * 
+     * @param listener
+     */
+    public synchronized void addJournalListener(JournalEventListener listener) {
+	if (!journalEvenListener.contains(listener)) {
+	    journalEvenListener.add(listener);
+	}
+    }
+    
     /**
      * Remove all entries from the journal.
      */
@@ -226,6 +213,11 @@ public class Journal {
 	    }
 	    entries.add(new Entry(content, date));
 	    proccessJournalEvent(new JournalEvent(this, getEntries().size(), getScriptureReferences().size(), getTopicReferences().size()));
+	    try {
+		Thread.sleep(500);
+	    } catch (InterruptedException e) {
+		e.printStackTrace();
+	    }
 	}
 	br.close();
     }
@@ -321,12 +313,44 @@ public class Journal {
     }
 
     /**
+     * Call all listener functions
+     * 
+     * @param journalEvent
+     */
+    @SuppressWarnings("unchecked")
+    private void proccessJournalEvent(JournalEvent journalEvent) {
+	ArrayList<JournalEventListener> tempJournalListenerList;
+	
+	synchronized (this) {
+	    if (journalEvenListener.size() == 0) {
+		return;
+	    }
+	    tempJournalListenerList = (ArrayList<JournalEventListener>) journalEvenListener.clone();
+	}
+	
+	for (JournalEventListener listener : tempJournalListenerList) {
+	    listener.updateLoadStatus(journalEvent);
+	}
+    }
+
+    /**
      * Remove an entry with a date.
      * 
      * @param entry
      */
     public void removeEntry(Entry entry) {
 	this.entries.remove(entry);
+    }
+
+    /**
+     * Remove an event listener
+     * 
+     * @param listener
+     */
+    public synchronized void removeJournalListener(JournalEventListener listener) {
+	if (journalEvenListener.contains(listener)) {
+	    journalEvenListener.remove(listener);
+	}
     }
 
     /**
@@ -470,7 +494,6 @@ public class Journal {
 	Source file = new StreamSource(xmlFile);
 	SchemaFactory schemaFactory = SchemaFactory
 		.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-	System.out.println(System.getProperty("user.dir"));
 	Schema schema = schemaFactory.newSchema(new File(System.getProperty("user.dir") + 
 		"/resources/schema.xsd"));
 	Validator validator = schema.newValidator();

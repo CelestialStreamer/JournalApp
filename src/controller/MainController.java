@@ -10,6 +10,9 @@ import java.util.List;
 
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Tab;
@@ -19,13 +22,17 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 import javax.xml.transform.TransformerFactoryConfigurationError;
 
 import journal.Entry;
 import journal.Journal;
-
+import journal.JournalEvent;
+import journal.JournalEventListener;
 import entryTree.EntryTreeItem;
 
 /**
@@ -172,9 +179,7 @@ public class MainController {
      */
     @FXML
     public void MenuAbout() {
-	System.out.println("About!");
-
-	showDialogMessage("AHHHH!");
+	showDialogMessage("Journal Application by\nBrian Woodruff");
     }
 
     /**
@@ -185,10 +190,8 @@ public class MainController {
      */
     @FXML
     private void MenuClose() {
-
 	openTabs.remove(currentOpenTab);
 	tabPane.getTabs().remove(currentOpenTab);
-	System.out.println("Close! " + openTabs.size());
     }
 
     /**
@@ -232,7 +235,21 @@ public class MainController {
      */
     @FXML
     private void MenuExport() {
-	System.out.println("Export!");
+	FileChooser fileChooser = new FileChooser();
+	fileChooser.setTitle("Export");
+	fileChooser.setInitialDirectory(new File(System.getProperty("user.dir")));
+
+	fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt"));
+
+	file = fileChooser.showSaveDialog(tabPane.getScene().getWindow());
+
+	if (file != null) {
+	    try {
+		journal.exportTxtFile(file);
+	    } catch (IOException e) {
+		showDialogMessage("Error exporting file \"" + file.getAbsolutePath() + "\":\n" + e.getLocalizedMessage());
+	    }
+	}
     }
 
     /**
@@ -244,16 +261,42 @@ public class MainController {
     private void MenuImport() {
 	FileChooser fileChooser = new FileChooser();
 	fileChooser.setTitle("Import");
-	fileChooser
-		.setInitialDirectory(new File(System.getProperty("user.dir")));
+	fileChooser.setInitialDirectory(new File(System.getProperty("user.dir")));
 
-	fileChooser.getExtensionFilters().add(
-		new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt"));
+	fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt"));
 
 	file = fileChooser.showOpenDialog(tabPane.getScene().getWindow());
 
 	if (file != null) {
-	    open(file);
+	    try {
+		LoadingScreenController controller = new LoadingScreenController();
+		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/LoadingScreenView.fxml"));
+		fxmlLoader.setController(controller);
+		fxmlLoader.load();
+		
+		Scene scene = new Scene(fxmlLoader.getRoot());
+		
+		Stage stage = new Stage();
+		stage.setScene(scene);
+		stage.setTitle("Importing...");
+		stage.initOwner(tabPane.getScene().getWindow());
+		stage.initModality(Modality.WINDOW_MODAL);
+		
+		journal.addJournalListener(new JournalEventListener() {
+		    @Override
+		    public void updateLoadStatus(JournalEvent event) {
+			controller.setEntries(event.getEntries());
+			controller.setScriptures(event.getScriptures());
+			controller.setTopics(event.getTopics());
+		    }
+		});
+		
+		stage.show();
+		
+		journal.importTxtFile(file);
+	    } catch (IOException e) {
+		showDialogMessage("Error importing file \"" + file.getAbsolutePath() + "\":\n" + e.getLocalizedMessage());
+	    }
 	}
     }
 
