@@ -7,6 +7,8 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.EventListener;
+import java.util.EventObject;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,6 +44,7 @@ import org.xml.sax.SAXException;
  */
 public class Journal {
     private List<Entry> entries = new ArrayList<Entry>();
+    private ArrayList<JournalEventListener> journalEvenListener = new ArrayList<JournalEventListener>();
     String fileName = "";
 
     /**
@@ -51,6 +54,28 @@ public class Journal {
      */
     public Journal() throws IOException {
 	setupFiles();
+    }
+    
+    public synchronized void addJournalListener(JournalEventListener listener) {
+	if (!journalEvenListener.contains(listener)) {
+	    journalEvenListener.add(listener);
+	}
+    }
+    
+    @SuppressWarnings("unchecked")
+    private void proccessJournalEvent(JournalEvent journalEvent) {
+	ArrayList<JournalEventListener> tempJournalListenerList;
+	
+	synchronized (this) {
+	    if (journalEvenListener.size() == 0) {
+		return;
+	    }
+	    tempJournalListenerList = (ArrayList<JournalEventListener>) journalEvenListener.clone();
+	}
+	
+	for (JournalEventListener listener : tempJournalListenerList) {
+	    listener.updateLoadStatus(journalEvent);
+	}
     }
 
     /**
@@ -200,6 +225,7 @@ public class Journal {
 		content.concat(line);
 	    }
 	    entries.add(new Entry(content, date));
+	    proccessJournalEvent(new JournalEvent(this, getEntries().size(), getScriptureReferences().size(), getTopicReferences().size()));
 	}
 	br.close();
     }
