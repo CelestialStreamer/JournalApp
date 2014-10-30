@@ -421,7 +421,7 @@ public class MainController {
 	    journal.open(file);
 	    importJournal(journal);
 	} catch (Exception e) {
-	    showDialogMessage("Error reading file:\n" + e.getLocalizedMessage());
+	    showDialogMessage("Error reading file" + file.getAbsolutePath() + ":\n" + e.getLocalizedMessage());
 	}
     }
     

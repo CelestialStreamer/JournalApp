@@ -53,7 +53,7 @@ public class Journal {
     public Journal() throws IOException {
 	setupFiles();
     }
-    
+
     /**
      * Add an entry to the journal.
      * 
@@ -62,7 +62,7 @@ public class Journal {
     public void addEntry(Entry newEntry) {
 	entries.add(newEntry);
     }
-    
+
     /**
      * Add an event listener
      * 
@@ -73,7 +73,7 @@ public class Journal {
 	    journalEvenListener.add(listener);
 	}
     }
-    
+
     /**
      * Remove all entries from the journal.
      */
@@ -205,14 +205,16 @@ public class Journal {
 	BufferedReader br = new BufferedReader(new FileReader(file));
 	entries.clear();
 
-	for (String line = br.readLine(); line != null; ) {
+	for (String line = br.readLine(); line != null;) {
 	    String date = br.readLine();
 	    String content = "";
 	    while ((line = br.readLine()) != null && !line.equals("-----")) {
 		content += line + "\n";
 	    }
 	    entries.add(new Entry(content, date));
-	    proccessJournalEvent(new JournalEvent(this, getEntries().size(), getScriptureReferences().size(), getTopicReferences().size()));
+	    proccessJournalEvent(new JournalEvent(this, getEntries().size(),
+		    getScriptureReferences().size(), getTopicReferences()
+			    .size()));
 	    try {
 		Thread.sleep(500);
 	    } catch (InterruptedException e) {
@@ -250,7 +252,7 @@ public class Journal {
 
 	    Node nNode = nList.item(temp);
 	    NodeList nList2 = ((Element) nNode).getElementsByTagName("content"); // content
-	    
+
 	    // subElements
 	    for (int temp2 = 0; temp2 < nList2.getLength(); temp2++) {
 		Node nNode2 = nList2.item(temp2);
@@ -320,14 +322,15 @@ public class Journal {
     @SuppressWarnings("unchecked")
     private void proccessJournalEvent(JournalEvent journalEvent) {
 	ArrayList<JournalEventListener> tempJournalListenerList;
-	
+
 	synchronized (this) {
 	    if (journalEvenListener.size() == 0) {
 		return;
 	    }
-	    tempJournalListenerList = (ArrayList<JournalEventListener>) journalEvenListener.clone();
+	    tempJournalListenerList = (ArrayList<JournalEventListener>) journalEvenListener
+		    .clone();
 	}
-	
+
 	for (JournalEventListener listener : tempJournalListenerList) {
 	    listener.updateLoadStatus(journalEvent);
 	}
@@ -494,8 +497,8 @@ public class Journal {
 	Source file = new StreamSource(xmlFile);
 	SchemaFactory schemaFactory = SchemaFactory
 		.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-	Schema schema = schemaFactory.newSchema(new File(System.getProperty("user.dir") + 
-		"/resources/schema.xsd"));
+	Schema schema = schemaFactory.newSchema(new File(System
+		.getProperty("user.dir") + "/resources/schema.xsd"));
 	Validator validator = schema.newValidator();
 	validator.validate(file);
     }
