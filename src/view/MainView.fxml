@@ -32,7 +32,7 @@
 								</MenuItem>
 								<MenuItem mnemonicParsing="false" onAction="#MenuClose" text="Close" />
 								<SeparatorMenuItem mnemonicParsing="false" />
-								<MenuItem disable="true" mnemonicParsing="false" onAction="#MenuSave" text="Save">
+								<MenuItem mnemonicParsing="false" onAction="#MenuSave" text="Save">
 									<accelerator>
 										<KeyCodeCombination alt="UP" code="S" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
 									</accelerator>

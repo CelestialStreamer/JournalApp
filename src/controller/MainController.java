@@ -32,7 +32,6 @@ import journal.Entry;
 import journal.Journal;
 import journal.JournalEvent;
 import journal.JournalEventListener;
-import entryTree.EntryTreeItem;
 
 /**
  * Controls everything
@@ -268,8 +267,8 @@ public class MainController {
 
 	if (file != null) {
 	    try {
-		LoadingScreenController controller = new LoadingScreenController();
-		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/LoadingScreenView.fxml"));
+		ImportingDialogController controller = new ImportingDialogController();
+		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/ImportingDialogView.fxml"));
 		fxmlLoader.setController(controller);
 		fxmlLoader.load();
 		
@@ -303,7 +302,6 @@ public class MainController {
 			try {
 			    journal.importTxtFile(file);
 			    importJournal(journal);
-			    System.out.println(journal);
 			} catch (IOException e) {
 			    showDialogMessage("Error importing file \"" + file.getAbsolutePath() + "\":\n" + e.getLocalizedMessage());
 			}
@@ -480,6 +478,7 @@ public class MainController {
 	scriptureRoot.getChildren().clear();
 	topicRoot.getChildren().clear();
 
+	// Scriptures
 	for (java.util.Map.Entry<String, ArrayList<Entry>> pair : journal.getScriptureReferences().entrySet()) {
 	    TreeItem<EntryTreeItem> book = new TreeItem<EntryTreeItem>(new EntryTreeItem(new Entry("", pair.getKey())));
 	    for (Entry anEntry : pair.getValue()) {
@@ -488,6 +487,7 @@ public class MainController {
 	    scriptureRoot.getChildren().add(book);
 	}
 
+	// Topics
 	for (java.util.Map.Entry<String, ArrayList<Entry>> pair : journal.getTopicReferences().entrySet()) {
 	    TreeItem<EntryTreeItem> book = new TreeItem<EntryTreeItem>(new EntryTreeItem(new Entry("", pair.getKey())));
 	    for (Entry anEntry : pair.getValue()) {

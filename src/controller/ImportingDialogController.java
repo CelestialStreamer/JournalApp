@@ -10,7 +10,7 @@ import javafx.scene.control.Label;
  * @author Brian Woodruff
  *
  */
-public class LoadingScreenController {
+public class ImportingDialogController {
 
     @FXML
     private Label entries;

@@ -211,7 +211,6 @@ public class Journal {
 	    while ((line = br.readLine()) != null && !line.equals("-----")) {
 		content += line + "\n";
 	    }
-	    System.out.println(date + "\n" + content);
 	    entries.add(new Entry(content, date));
 	    proccessJournalEvent(new JournalEvent(this, getEntries().size(), getScriptureReferences().size(), getTopicReferences().size()));
 	    try {
