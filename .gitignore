@@ -1,5 +1,5 @@
 /bin
 /.classpath
 /.project
-*.txt
-/burtonJournal.xml
+/.settings
+/files
