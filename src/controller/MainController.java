@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -283,15 +284,31 @@ public class MainController {
 		journal.addJournalListener(new JournalEventListener() {
 		    @Override
 		    public void updateLoadStatus(JournalEvent event) {
-			controller.setEntries(event.getEntries());
-			controller.setScriptures(event.getScriptures());
-			controller.setTopics(event.getTopics());
+			Platform.runLater(new Runnable() {
+			    @Override
+			    public void run() {
+				controller.setEntries(event.getEntries());
+				controller.setScriptures(event.getScriptures());
+				controller.setTopics(event.getTopics());
+			    }
+			});
 		    }
 		});
 		
 		stage.show();
 		
-		journal.importTxtFile(file);
+		new Thread(new Runnable() {
+		    @Override
+		    public void run() {
+			try {
+			    journal.importTxtFile(file);
+			    importJournal(journal);
+			    System.out.println(journal);
+			} catch (IOException e) {
+			    showDialogMessage("Error importing file \"" + file.getAbsolutePath() + "\":\n" + e.getLocalizedMessage());
+			}
+		    }
+		}).start();
 	    } catch (IOException e) {
 		showDialogMessage("Error importing file \"" + file.getAbsolutePath() + "\":\n" + e.getLocalizedMessage());
 	    }
@@ -404,28 +421,30 @@ public class MainController {
     private void open(File file) {
 	try {
 	    journal.open(file);
-
-	    tabPane.getTabs().clear();
-	    openTabs.clear();
-
-	    entryRoot.getChildren().clear();
-	    scriptureRoot.getChildren().clear();
-	    topicRoot.getChildren().clear();
-
-	    for (Entry entry : journal.getEntries()) {
-		entryRoot.getChildren().add(
-			new TreeItem<EntryTreeItem>(new EntryTreeItem(entry)));
-	    }
-	    entryRoot.setExpanded(true);
-
-	    updateTree();
-
-	    int tabs = tabPane.getTabs().size();
-	    if (tabs != 0) {
-		tabPane.getTabs().get(tabs - 1).getContent().requestFocus();
-	    }
+	    importJournal(journal);
 	} catch (Exception e) {
 	    showDialogMessage("Error reading file:\n" + e.getLocalizedMessage());
+	}
+    }
+    
+    private void importJournal(Journal journal) {
+	tabPane.getTabs().clear();
+	openTabs.clear();
+
+	entryRoot.getChildren().clear();
+	scriptureRoot.getChildren().clear();
+	topicRoot.getChildren().clear();
+
+	for (Entry entry : journal.getEntries()) {
+	    entryRoot.getChildren().add(new TreeItem<EntryTreeItem>(new EntryTreeItem(entry)));
+	}
+	entryRoot.setExpanded(true);
+
+	updateTree();
+
+	int tabs = tabPane.getTabs().size();
+	if (tabs != 0) {
+	    tabPane.getTabs().get(tabs - 1).getContent().requestFocus();
 	}
     }
 
@@ -461,26 +480,18 @@ public class MainController {
 	scriptureRoot.getChildren().clear();
 	topicRoot.getChildren().clear();
 
-	for (java.util.Map.Entry<String, ArrayList<Entry>> pair : journal
-		.getScriptureReferences().entrySet()) {
-	    TreeItem<EntryTreeItem> book = new TreeItem<EntryTreeItem>(
-		    new EntryTreeItem(new Entry("", pair.getKey())));
+	for (java.util.Map.Entry<String, ArrayList<Entry>> pair : journal.getScriptureReferences().entrySet()) {
+	    TreeItem<EntryTreeItem> book = new TreeItem<EntryTreeItem>(new EntryTreeItem(new Entry("", pair.getKey())));
 	    for (Entry anEntry : pair.getValue()) {
-		book.getChildren()
-			.add(new TreeItem<EntryTreeItem>(new EntryTreeItem(
-				anEntry)));
+		book.getChildren().add(new TreeItem<EntryTreeItem>(new EntryTreeItem(anEntry)));
 	    }
 	    scriptureRoot.getChildren().add(book);
 	}
 
-	for (java.util.Map.Entry<String, ArrayList<Entry>> pair : journal
-		.getTopicReferences().entrySet()) {
-	    TreeItem<EntryTreeItem> book = new TreeItem<EntryTreeItem>(
-		    new EntryTreeItem(new Entry("", pair.getKey())));
+	for (java.util.Map.Entry<String, ArrayList<Entry>> pair : journal.getTopicReferences().entrySet()) {
+	    TreeItem<EntryTreeItem> book = new TreeItem<EntryTreeItem>(new EntryTreeItem(new Entry("", pair.getKey())));
 	    for (Entry anEntry : pair.getValue()) {
-		book.getChildren()
-			.add(new TreeItem<EntryTreeItem>(new EntryTreeItem(
-				anEntry)));
+		book.getChildren().add(new TreeItem<EntryTreeItem>(new EntryTreeItem(anEntry)));
 	    }
 	    topicRoot.getChildren().add(book);
 	}

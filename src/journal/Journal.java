@@ -90,9 +90,9 @@ public class Journal {
     public void exportTxtFile(File file) throws IOException {
 	BufferedWriter bw = new BufferedWriter(new FileWriter(file));
 	for (Entry entry : entries) {
-	    bw.write("-----\n");
-	    bw.write(entry.getDate() + "\n");
-	    bw.write(entry.getContent() + "\n");
+	    bw.write("-----" + System.lineSeparator());
+	    bw.write(entry.getDate() + System.lineSeparator());
+	    bw.write(entry.getContent() + System.lineSeparator());
 	}
 	bw.close();
     }
@@ -205,12 +205,13 @@ public class Journal {
 	BufferedReader br = new BufferedReader(new FileReader(file));
 	entries.clear();
 
-	for (String line = br.readLine(); line != null; line = br.readLine()) {
+	for (String line = br.readLine(); line != null; ) {
 	    String date = br.readLine();
 	    String content = "";
 	    while ((line = br.readLine()) != null && !line.equals("-----")) {
-		content.concat(line);
+		content += line + "\n";
 	    }
+	    System.out.println(date + "\n" + content);
 	    entries.add(new Entry(content, date));
 	    proccessJournalEvent(new JournalEvent(this, getEntries().size(), getScriptureReferences().size(), getTopicReferences().size()));
 	    try {
