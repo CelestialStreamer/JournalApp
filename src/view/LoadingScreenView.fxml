@@ -5,7 +5,6 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
 <VBox alignment="CENTER" prefHeight="125.0" prefWidth="200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.LoadingScreenController">
    <children>
       <Label text="While loading your file, I found:" VBox.vgrow="NEVER" />
@@ -31,7 +30,5 @@
             <Label fx:id="topics" text="0" />
          </children>
       </HBox>
-      <Region prefHeight="25.0" />
-      <ProgressBar fx:id="progressbar" prefWidth="200.0" />
    </children>
 </VBox>

@@ -31,10 +31,10 @@ public class Main extends Application {
 	}
     }
 
-    @Override
     /**
      * 
      */
+    @Override
     public void init() throws Exception {
 	super.init();
     }
@@ -48,6 +48,7 @@ public class Main extends Application {
     }
 
     /**
+     * Application is launched form here.
      * 
      * @param args
      */

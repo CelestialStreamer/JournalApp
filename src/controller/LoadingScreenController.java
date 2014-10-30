@@ -2,8 +2,14 @@ package controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import javafx.scene.control.ProgressBar;
 
+/**
+ * A dialog window to display entries, scriptures and topics found while loading
+ * a journal file.
+ * 
+ * @author Brian Woodruff
+ *
+ */
 public class LoadingScreenController {
 
     @FXML
@@ -15,25 +21,30 @@ public class LoadingScreenController {
     @FXML
     private Label scriptures;
 
-    @FXML
-    private ProgressBar progressbar;
-    
+    /**
+     * Set number of entries found.
+     * 
+     * @param count
+     */
     public void setEntries(int count) {
-    	entries.setText(Integer.toString(count));
+	entries.setText(Integer.toString(count));
     }
 
+    /**
+     * Set number of topics found.
+     * 
+     * @param count
+     */
     public void setTopics(int count) {
-    	topics.setText(Integer.toString(count));
+	topics.setText(Integer.toString(count));
     }
-    
+
+    /**
+     * Set number of scriptures found.
+     * 
+     * @param count
+     */
     public void setScriptures(int count) {
-    	scriptures.setText(Integer.toString(count));
-    }
-    
-    public void setProgress(double progress) {
-    	if (progress < 0 || progress > 1) {
-    		return;
-    	}
-    	progressbar.setProgress(progress);
+	scriptures.setText(Integer.toString(count));
     }
 }

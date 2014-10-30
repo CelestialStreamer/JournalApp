@@ -10,70 +10,93 @@ import javafx.scene.Node;
 import javafx.scene.control.TreeCell;
 import javafx.util.Pair;
 
-
+/**
+ * 
+ * @author Brian Woodruff
+ *
+ */
 public class EntryTreeCell extends TreeCell<Pair<String, String>> implements Action {
-		
-		@Override
-		public void startEdit() {
-			super.startEdit();
-		}
 
-		@Override
-		public void cancelEdit() {
-			super.cancelEdit();
-		}
+    /**
+     * 
+     */
+    @Override
+    public void startEdit() {
+	super.startEdit();
+    }
 
-		@Override
-		public ObservableList<Node> getChildren() {
-			return super.getChildren();
-		}
+    /**
+     * 
+     */
+    @Override
+    public void cancelEdit() {
+	super.cancelEdit();
+    }
 
-		@Override
-		protected void updateItem(Pair<String, String> item, boolean empty) {
-			super.updateItem(item, empty);
-		}
+    /**
+     * 
+     */
+    @Override
+    public ObservableList<Node> getChildren() {
+	return super.getChildren();
+    }
 
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
-			
-		}
+    /**
+     * 
+     */
+    @Override
+    protected void updateItem(Pair<String, String> item, boolean empty) {
+	super.updateItem(item, empty);
+    }
 
-		@Override
-		public void addPropertyChangeListener(PropertyChangeListener listener) {
-			// TODO Auto-generated method stub
-			
-		}
+    /**
+     * 
+     */
+    @Override
+    public void actionPerformed(ActionEvent e) {
+    }
 
-		@Override
-		public Object getValue(String key) {
-			// TODO Auto-generated method stub
-			return null;
-		}
+    /**
+     * 
+     */
+    @Override
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+    }
 
-		@Override
-		public boolean isEnabled() {
-			// TODO Auto-generated method stub
-			return false;
-		}
+    /**
+     * 
+     */
+    @Override
+    public Object getValue(String key) {
+	return null;
+    }
 
-		@Override
-		public void putValue(String key, Object value) {
-			// TODO Auto-generated method stub
-			
-		}
+    /**
+     * 
+     */
+    @Override
+    public boolean isEnabled() {
+	return false;
+    }
 
-		@Override
-		public void removePropertyChangeListener(PropertyChangeListener listener) {
-			// TODO Auto-generated method stub
-			
-		}
+    /**
+     * 
+     */
+    @Override
+    public void putValue(String key, Object value) {
+    }
 
-		@Override
-		public void setEnabled(boolean b) {
-			// TODO Auto-generated method stub
-			
-		}
+    /**
+     * 
+     */
+    @Override
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
+    }
 
-		
-	}
+    /**
+     * 
+     */
+    @Override
+    public void setEnabled(boolean b) {
+    }
+}

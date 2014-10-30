@@ -21,15 +21,10 @@ import javafx.scene.control.TreeView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.TransformerConfigurationException;
-import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactoryConfigurationError;
 
 import journal.Entry;
 import journal.Journal;
-
-import org.xml.sax.SAXException;
 
 import entryTree.EntryTreeItem;
 
@@ -45,7 +40,7 @@ public class MainController {
 	    new EntryTreeItem(new Entry("", "Entries")));
 
     private File file;
-    private Journal journal = new Journal();
+    private Journal journal;
     private TreeItem<EntryTreeItem> journalRoot = new TreeItem<EntryTreeItem>(
 	    new EntryTreeItem(new Entry("", "Journal")));
 
@@ -76,17 +71,17 @@ public class MainController {
 
 	// Create a tab with text as content, closable and set action listener
 	Tab entryTab = new Tab(entry.toString());
-	
+
 	ContextMenu rootContextMenu = new ContextMenu();
 	MenuItem closeMenuItem = new MenuItem("Close");
 	rootContextMenu.getItems().add(closeMenuItem);
-	
+
 	closeMenuItem.setOnAction((e) -> {
 	    openTabs.remove(entry);
 	    tabPane.getTabs().remove(entryTab);
 	});
 	entryTab.setContextMenu(rootContextMenu);
-	
+
 	entryTab.setClosable(true);
 	entryTab.setContent(area);
 	entryTab.setOnSelectionChanged((e) -> {
@@ -114,6 +109,12 @@ public class MainController {
      */
     @SuppressWarnings("unchecked")
     public void initialize() {
+	try {
+	    journal = new Journal();
+	} catch (IOException e1) {
+	    e1.printStackTrace();
+	}
+
 	tree.setOnMouseClicked(new EventHandler<MouseEvent>() {
 	    @Override
 	    public void handle(MouseEvent event) {
@@ -173,7 +174,7 @@ public class MainController {
     public void MenuAbout() {
 	System.out.println("About!");
 
-	DialogController.showDialog("AHHHH!");
+	showDialogMessage("AHHHH!");
     }
 
     /**
@@ -382,12 +383,8 @@ public class MainController {
 	    if (tabs != 0) {
 		tabPane.getTabs().get(tabs - 1).getContent().requestFocus();
 	    }
-	} catch (SAXException e) {
-	    e.printStackTrace();
-	} catch (IOException e) {
-	    e.printStackTrace();
-	} catch (ParserConfigurationException e) {
-	    e.printStackTrace();
+	} catch (Exception e) {
+	    showDialogMessage("Error reading file:\n" + e.getLocalizedMessage());
 	}
     }
 
@@ -399,22 +396,26 @@ public class MainController {
     private void save(File file) {
 	try {
 	    journal.save(file);
-	} catch (ParserConfigurationException e) {
-	    e.printStackTrace();
-	} catch (TransformerConfigurationException e) {
-	    e.printStackTrace();
-	} catch (TransformerException e) {
-	    e.printStackTrace();
+	} catch (Exception e) {
+	    showDialogMessage("Error saving file:\n" + e.getLocalizedMessage());
 	} catch (TransformerFactoryConfigurationError e) {
-	    e.printStackTrace();
-	} catch (IOException e) {
-	    e.printStackTrace();
+	    showDialogMessage("Error saving file:\n" + e.getLocalizedMessage());
 	}
     }
 
     /**
-	 * 
-	 */
+     * Show a dialog window that displays a message.
+     * 
+     * @param message
+     */
+    private void showDialogMessage(String message) {
+	DialogWindow.showDialog(message, tabPane.getScene().getWindow());
+    }
+
+    /**
+     * Go through scripture references and topics and add to tree if not already
+     * included.
+     */
     private void updateTree() {
 	scriptureRoot.getChildren().clear();
 	topicRoot.getChildren().clear();
