@@ -11,40 +11,39 @@ import javafx.scene.control.Label;
  *
  */
 public class ImportingDialogController {
+  @FXML
+  private Label entries;
 
-    @FXML
-    private Label entries;
+  @FXML
+  private Label topics;
 
-    @FXML
-    private Label topics;
+  @FXML
+  private Label scriptures;
 
-    @FXML
-    private Label scriptures;
+  /**
+   * Set number of entries found.
+   * 
+   * @param count
+   */
+  public void setEntries(int count) {
+    entries.setText(Integer.toString(count));
+  }
 
-    /**
-     * Set number of entries found.
-     * 
-     * @param count
-     */
-    public void setEntries(int count) {
-	entries.setText(Integer.toString(count));
-    }
+  /**
+   * Set number of topics found.
+   * 
+   * @param count
+   */
+  public void setTopics(int count) {
+    topics.setText(Integer.toString(count));
+  }
 
-    /**
-     * Set number of topics found.
-     * 
-     * @param count
-     */
-    public void setTopics(int count) {
-	topics.setText(Integer.toString(count));
-    }
-
-    /**
-     * Set number of scriptures found.
-     * 
-     * @param count
-     */
-    public void setScriptures(int count) {
-	scriptures.setText(Integer.toString(count));
-    }
+  /**
+   * Set number of scriptures found.
+   * 
+   * @param count
+   */
+  public void setScriptures(int count) {
+    scriptures.setText(Integer.toString(count));
+  }
 }

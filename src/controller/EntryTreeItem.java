@@ -14,44 +14,44 @@ import journal.Entry;
  *
  */
 public class EntryTreeItem extends TreeItem<String> {
-    private Entry entry;
+  private Entry entry;
 
-    /**
-     * Constructor that takes an entry as a parameter and stores it inside.
-     * 
-     * @param entry
-     */
-    public EntryTreeItem(Entry entry) {
-	this.entry = entry;
-    }
+  /**
+   * Constructor that takes an entry as a parameter and stores it inside.
+   * 
+   * @param entry
+   */
+  public EntryTreeItem(Entry entry) {
+    this.entry = entry;
+  }
 
-    /**
-     * Return super.getChildren()
-     * 
-     * @return ObservableList<TreeItem<String>>
-     */
-    @Override
-    public ObservableList<TreeItem<String>> getChildren() {
-	return super.getChildren();
-    }
+  /**
+   * Return super.getChildren()
+   * 
+   * @return ObservableList<TreeItem<String>>
+   */
+  @Override
+  public ObservableList<TreeItem<String>> getChildren() {
+    return super.getChildren();
+  }
 
-    /**
-     * Return the date of the entry. This will be the visible text for the tree
-     * item.
-     * 
-     * @return String
-     */
-    @Override
-    public String toString() {
-	return entry.getDate();
-    }
+  /**
+   * Return the date of the entry. This will be the visible text for the tree
+   * item.
+   * 
+   * @return String
+   */
+  @Override
+  public String toString() {
+    return entry.getDate();
+  }
 
-    /**
-     * Returns the entry.
-     * 
-     * @return Entry
-     */
-    public Entry getEntry() {
-	return entry;
-    }
+  /**
+   * Returns the entry.
+   * 
+   * @return Entry
+   */
+  public Entry getEntry() {
+    return entry;
+  }
 }

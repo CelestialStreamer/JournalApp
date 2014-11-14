@@ -7,5 +7,5 @@ package journal;
  *
  */
 public interface JournalEventListener extends java.util.EventListener {
-    public void updateLoadStatus(JournalEvent event);
+  public void updateLoadStatus(JournalEvent event);
 }
